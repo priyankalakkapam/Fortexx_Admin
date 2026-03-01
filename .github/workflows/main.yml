@@ -36,16 +36,5 @@ jobs:
           path: build-artifact.tar.gz
           retention-days: 7
 
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: 'your-azure-app-name'
-          package: .
-
       - name: Post Deploy
         run: echo "Deployment complete!"
