@@ -1,0 +1,37 @@
+﻿name: Fortexx Admin CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    name: Agent job 1
+    runs-on: self-hosted
+    environment: TST
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: npm install
+        run: npm install
+
+      - name: npm build
+        run: npm run build
+
+      - name: Archive build output
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact
+          path: .
+          retention-days: 7
+
+      - name: Post Deploy
+        run: echo "Deployment complete!"
