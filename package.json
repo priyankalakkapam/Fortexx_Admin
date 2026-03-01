@@ -1,0 +1,14 @@
+{
+  "name": "fortexx-admin",
+  "version": "1.0.0",
+  "description": "Fortexx Admin App",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "build": "echo Build complete"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
