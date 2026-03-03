@@ -1,15 +1,14 @@
-
-name: UI Module Deployment
+name: UI Build and Artifact
 
 on:
-  workflow_dispatch: # This adds the manual "Run" button
+  workflow_dispatch: # Allows you to run it manually like in Azure
 
 jobs:
-  UI_Build:
-    # 1. Targets your Windows Runner
+  build:
+    # Runs on your Windows machine (DESKTOP-BE1AC6Q)
     runs-on: self-hosted 
-    # 2. Targets your 'TST' Environment
-    environment: TST     
+    # Uses your TST Environment
+    environment: TST 
 
     steps:
       - name: Initialize job
@@ -18,25 +17,24 @@ jobs:
       - name: Azure Login
         uses: azure/login@v1
         with:
-          # Uses your repository secret
-          creds: ${{ secrets.AZURE_CREDENTIALS }} 
+          creds: ${{ secrets.AZURE_CREDENTIALS }} # Uses your secret
 
       - name: Use Node 20.x
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Matches your Azure step
+          node-version: '20' # Matches your Azure Node version
 
       - name: npm build
         shell: bash
         run: |
-          # Enters the specific folder and runs build
           cd modules/ui
           npm install
-          npm run build 
+          npm run build # Generates the 'dist' folder
 
-      # This replaces the 'Publish Artifact' step from Azure
+      # This replicates 'Publish Artifact' from Azure
       - name: Publish Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: UI-Build-Output
-          path: modules/ui/dist/ # Ensure this matches your build output folder
+          name: arthapay # Name matches your Azure artifact
+          # Points to the 'dist' folder containing index.html, assets, etc.
+          path: modules/ui/dist/
